@@ -109,10 +109,6 @@
                                 {{ session('success') }}
                             </div>
                         @endif
-                        <div class="card-body">
-                            <div style="display: flex; justify-content: center; align-items: center;">
-                                <img src="{{ asset('auth/assets/images/smk assalaam.png') }}" alt="" width="200" height="170">
-                            </div>
                             <h3 class="card-title text-center mb-3" style="color: #fff">Register</h3>
                             <form method="POST" action="{{ route('register') }}">
                                 @csrf

@@ -2,95 +2,74 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pengembalian;
+use App\Http\Controllers\Controller;
+use App\Models\Buku;
 use App\Models\Peminjaman;
-use Carbon\Carbon;
+use App\Models\Pengembalian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-
-Carbon::setLocale('id');
-
 class PengembalianController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        $pengembalian = Peminjaman::where('status', 'sudah Dikembalikan')->get();
-
-        foreach ($pengembalian as $data) {
-            $data->formatted_tanggal = Carbon::parse($data->tanggal)->translatedForamt('l, d F Y');
-        }
-
-        return view('user.pengembalian.index', compact('pengembalian'));
+        $pengembalian = Pengembalian::orderBy('id', 'desc')->get();
+        $user = Auth::user();
+        return view('user.pengembalian.index', compact('user', 'pengembalian'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $peminjaman = Peminjaman::where('no_peminjaman', $request->no_peminjaman)
+            ->where('status_pinjam', 'disetujui')
+            ->first();
+
+        if (!$peminjaman) {
+            return redirect()->back()->with('error', 'Peminjaman tidak ditemukan atau belum disetujui.');
+        }
+
+        // Simpan data pengembalian
+        $pengembalian = new Pengembalian();
+        $pengembalian->id_user = Auth::id();
+        $pengembalian->id_peminjaman = $peminjaman->id;
+        $pengembalian->tanggal_penggembalian = now();
+        $pengembalian->denda = 0;
+        $pengembalian->status_kembali = 'menunggu';
+        $pengembalian->save();
+
+        // Update stok buku yang dikembalikan
+        foreach ($request->id_buku as $key => $id_buku) {
+            $jumlah_kembali = $request->jumlah_kembali[$id_buku] ?? 0;
+            $buku = Buku::find($id_buku);
+
+            if ($buku) {
+                $buku->jumlah_buku += $jumlah_kembali;
+                $buku->save();
+            }
+        }
+
+        return redirect()->route('adminpengembalian')->with('success', 'Pengembalian berhasil disimpan dan menunggu persetujuan.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Pengembalian  $pengembalian
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Pengembalian $pengembalian)
+
+    public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Pengembalian  $pengembalian
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Pengembalian $pengembalian)
+    public function edit(string $id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Pengembalian  $pengembalian
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Pengembalian $pengembalian)
+    function update(Request $request, string $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Pengembalian  $pengembalian
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Pengembalian $pengembalian)
+
+    public function destroy(string $id)
     {
         //
     }

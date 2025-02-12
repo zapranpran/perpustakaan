@@ -15,7 +15,15 @@ return new class extends Migration
     {
         Schema::create('pengembalians', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('id_user');
+            $table->unsignedBigInteger('id_peminjaman');
+            $table->integer('tanggal_pengembalian');
+            $table->string('status');
+            $table->string('alasan_kembali');
+            $table->integer('denda');
             $table->timestamps();
+
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

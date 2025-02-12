@@ -53,13 +53,25 @@
                                                 @csrf
                                                 @method('DELETE')
                                                 <td class="text-center">
-                                                    <div class="container">
-                                                        <a href="{{ route('buku.edit', $data->id) }}"
-                                                            class="btn btn-secondary">edit</a>
-                                                        <button type="submit" class="btn btn-danger"
-                                                            onclick="return confrim('apakah anda yakin ingin menghapus data ini?')">hapus</button>
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                                            Aksi
+                                                        </button>
+                                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                            <li>
+                                                                <a class="dropdown-item" href="{{ route('buku.edit', $data->id) }}">Edit</a>
+                                                            </li>
+                                                            <li>
+                                                                <form action="{{ route('buku.destroy', $data->id) }}" method="POST" onsubmit="return confirm('Apakah anda yakin ingin menghapus data ini?')">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit" class="dropdown-item">Hapus</button>
+                                                                </form>
+                                                            </li>
+                                                        </ul>
                                                     </div>
                                                 </td>
+
                                             </form>
                                         </tr>
                                     @endforeach

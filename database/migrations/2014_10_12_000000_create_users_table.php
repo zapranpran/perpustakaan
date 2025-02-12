@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             // $table->string('alamat');
-            $table->string('address');
-            $table->string('no_hp');
+            $table->string('address')->nullable();
+            $table->string('no_hp')->nullable();
             $table->string('fotoprofile')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();

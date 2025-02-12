@@ -1,7 +1,7 @@
 <div class="container-fluid position-relative p-0">
     <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
         <a href="" class="navbar-brand p-0">
-            <h1 class="text-primary"><i class="fas fa-search-dollar me-3"></i>PERPUSTAKAAN ASSALAAM</h1>
+            <h1 class="text-primary"><i class="fas fa-search-dollar me-3"></i>RUANG BACA</h1>
             <!-- <img src="img/logo.png" alt="Logo"> -->
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -74,8 +74,7 @@
                         <div class="col-lg-0 col-xl-5"></div>
                         <div class="col-xl-7 animated fadeInLeft">
                             <div class="text-sm-center text-md-end">
-                                <h4 class="text-primary text-uppercase fw-bold mb-4">Selamat Datang Di Perpustakaan Smk
-                                    Assalaam</h4>
+                                <h4 class="text-primary text-uppercase fw-bold mb-4">Selamat Datang Di Ruang Baca</h4>
                                 <h1 class="display-4 text-uppercase text-white mb-4">Ayo Membaca Agar Pemikiran kita
                                     Lebih Terbuka</h1>
                                 <p class="mb-5 fs-5">Membaca buku sangat baik sebagai latihan otak dan pikiran. Membaca dapat membantu menjaga otak agar selalu menjalankan fungsinya secara sempurna.
@@ -93,8 +92,7 @@
                     <div class="row g-5">
                         <div class="col-12 animated fadeInUp">
                             <div class="text-center">
-                                <h4 class="text-primary text-uppercase fw-bold mb-4">Selamat Datang di Perpustakaan Smk
-                                    Assalaam</h4>
+                                <h4 class="text-primary text-uppercase fw-bold mb-4">Selamat Datang di Ruang Baca</h4>
                                 <h1 class="display-4 text-uppercase text-white mb-4">Luangkan Sedikit Waktu mu Untuk
                                     Membaca</h1>
                                 <p class="mb-5 fs-5">Membaca buku sangat baik sebagai latihan otak dan pikiran. Membaca dapat membantu menjaga otak agar selalu menjalankan fungsinya secara sempurna. Saat membaca, otak dituntut untuk berpikir, menganalisis berbagai masalah, mencari jalan keluar dan solusi hingga menemukan hal-hal baru.

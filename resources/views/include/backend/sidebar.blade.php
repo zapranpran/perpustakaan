@@ -4,12 +4,7 @@
       <!-- Logo Header -->
       <div class="logo-header" data-background-color="dark">
         <a href="index.html" class="logo">
-          <img
-            src="{{ asset('assets/img/smk assalaam.png')}}"
-            alt="navbar brand"
-            class="navbar-brand"
-            height="100"
-          />
+          <h1 style="color: white">RUANG BUKU</h1>
         </a>
         <div class="nav-toggle">
           <button class="btn btn-toggle toggle-sidebar">
@@ -82,6 +77,12 @@
                             <a class="nav-link" href="{{route ('peminjamanadmin.admin')}}">
                                 <i class="fa fa-envelope-o" style="font-size:25px"></i>
                               <p>PENGAJUAN PEMINJAMAN</p>
+                            </a>
+                        </li>
+                        <li class="nav-item menu-items">
+                            <a class="nav-link" href="{{route ('pengembalian.index')}}">
+                                <i class="fa fa-refresh" style="font-size:25px"></i>
+                              <p>PENGEMBALIAN</p>
                             </a>
                         </li>
                              <div class="collapse" id="submenu">

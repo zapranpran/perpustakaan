@@ -5,10 +5,10 @@
                     <div class="col-md-6 col-lg-6 col-xl-4">
                         <div class="footer-item">
                             <a href="index.html" class="p-0">
-                                <h4 class="text-white"><i class="fas fa-search-dollar me-3"></i>Perpustakaan Smk Assalaam</h4>
+                                <h4 class="text-white"><i class="fas fa-search-dollar me-3"></i>RUANG BACA</h4>
                                 <!-- <img src="img/logo.png" alt="Logo"> -->
                             </a>
-                            <p class="mb-4">Perpustakaan smk assalaam di buat untuk memudahkan para siswa siswi dan guru guru yang ingin membaca maupun meminjam buku...</p>
+                            <p class="mb-4">RUANG BACA di buat untuk memudahkan Para pengguna yang ingin membaca maupun meminjam buku...</p>
 
                         </div>
                     </div>
@@ -39,11 +39,11 @@
                             <h4 class="text-white mb-4">Contact Info</h4>
                             <div class="d-flex align-items-center">
                                 <i class="fas fa-map-marker-alt text-primary me-3"></i>
-                                <p class="text-white mb-0">Jl.Terusan Cibaduyut</p>
+                                <p class="text-white mb-0">bandung jawabarat</p>
                             </div>
                             <div class="d-flex align-items-center">
                                 <i class="fas fa-envelope text-primary me-3"></i>
-                                <p class="text-white mb-0">@smkassalaambandung.sch.id</p>
+                                <p class="text-white mb-0">@RuangBaca.id</p>
                             </div>
                             <div class="d-flex align-items-center">
                                 <i class="fa fa-phone-alt text-primary me-3"></i>
@@ -51,7 +51,7 @@
                             </div>
                             <div class="d-flex align-items-center mb-4">
                                 <i class="fab fa-firefox-browser text-primary me-3"></i>
-                                <p class="text-white mb-0">https://smkassalaambandung.sch.id/</p>
+                                <p class="text-white mb-0">https://RuangBaca.id/</p>
                             </div>
                         </div>
                     </div>
@@ -62,7 +62,7 @@
             <div class="container">
                 <div class="row g-4 align-items-center">
                     <div class="col-md-6 text-center text-md-start mb-md-0">
-                        <span class="text-body"><a href="#" class="border-bottom text-white"><i class="fas fa-copyright text-light me-2"></i>Perpustakaan Asssalam</a>, All right reserved.</span>
+                        <span class="text-body"><a href="#" class="border-bottom text-white"><i class="fas fa-copyright text-light me-2"></i>RUANG BACA</a>, All right reserved.</span>
                     </div>
                     <div class="col-md-6 text-center text-md-end text-body">
                         <!--/*** This template is free as long as you keep the below author’s credit link/attribution link/backlink. ***/-->

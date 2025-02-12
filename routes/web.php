@@ -8,12 +8,12 @@ use App\Http\Controllers\PenulisController;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\DashboardController;
-// use App\Http\Controllers\pengembalianController;
+use App\Http\Controllers\pengembalianController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DaftarBukuController;
 
 use App\Http\Middleware\IsAdmin;
-
+use Illuminate\Support\Facades\Auth;
 
 // use App\Models\DaftarBuku;
 
@@ -56,7 +56,7 @@ Route::group(['prefix' => 'user'], function () {
 
 Route::group(['prefix' => 'user','middleware' =>['auth']], function () {
     Route::resource('peminjaman', PeminjamanController::class);
-    // Route::resource('pengembalian', pengembalianController::class);
+    Route::resource('pengembalian', pengembalianController::class);
 });
 
 
