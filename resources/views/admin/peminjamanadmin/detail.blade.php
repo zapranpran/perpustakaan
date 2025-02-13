@@ -28,7 +28,7 @@
                     <form action="{{ route('peminjaman.update', $peminjaman->id) }}" method="POST" style="display: inline;">
                         @csrf
                         @method('PUT')
-                        <button type="submit" name="status" value="diterima" class="btn btn-success btn-sm">Terima</button>
+                        <button type="submit" name="status" value="disetujui" class="btn btn-success btn-sm">Terima</button>
                         <button type="submit" name="status" value="ditolak" class="btn btn-danger btn-sm">Tolak</button>
                         {{-- <button type="submit" name="status" value="ditahan" class="btn btn-warning btn-sm">Tahan</button> --}}
                     </form>

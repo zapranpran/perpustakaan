@@ -9,16 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Pengembalian extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'id',
-        'id_user',
-        'id_peminjaman',
-        'tanggal_penggembalian',
-        'denda',
-        'status_kembali',
-        'alasan_kembali'
-
-    ];
+    protected $fillable = ['id_user', 'id_peminjaman', 'tanggal_pengembalian', 'status','alasan_kembali'];
     public $timestamps = true;
 
     public function peminjaman()

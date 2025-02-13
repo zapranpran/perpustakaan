@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_user');
             $table->unsignedBigInteger('id_peminjaman');
             $table->integer('tanggal_pengembalian');
-            $table->string('status');
+            $table->enum('status',['menunggu','disetujui','ditolak'])->default('menunggu');
             $table->string('alasan_kembali');
             $table->integer('denda');
             $table->timestamps();

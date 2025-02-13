@@ -16,12 +16,12 @@ class DatabaseSeeder extends Seeder
     {
         \App\Models\User::factory()->create([
             'name' => 'Admin',
-            'alamat' => 'Kampus',
+            'address' => 'Kampus',
             'no_hp' => '089656978016',
             // 'potoprofile' => 'Kampus',
             'email' => 'admin@gmail.com',
             'password' => bcrypt('123456789'),
-            'isAdmin' => 'admin'
+            'isAdmin' => '1'
         ]);
     }
 }

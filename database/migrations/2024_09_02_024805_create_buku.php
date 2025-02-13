@@ -21,6 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_penerbit');
             $table->unsignedBigInteger('id_kategori');
             $table->date('tahun_terbit');
+            $table->decimal('harga', 10, 2)->nullable();
             $table->string('foto');
             $table->string('sinopsis');
             $table->timestamps();

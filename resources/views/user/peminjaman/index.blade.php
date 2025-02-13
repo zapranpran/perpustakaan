@@ -38,7 +38,7 @@
                     <td>{{ $data->batas_pinjam }}</td>
                     <td>{{ $data->tanggal_kembali }}</td>
                     <td class="text-center">
-                        @if ($data->status == 'diterima')
+                        @if ($data->status == 'disetujui')
                         <span class="badge bg-success">{{ ucfirst($data->status) }}</span>
                         @elseif ($data->status == 'ditolak')
                          <span class="badge bg-danger">{{ ucfirst($data->status) }}</span>

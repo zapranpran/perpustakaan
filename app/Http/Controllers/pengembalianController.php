@@ -21,8 +21,9 @@ class PengembalianController extends Controller
 
     public function store(Request $request)
     {
-        $peminjaman = Peminjaman::where('no_peminjaman', $request->no_peminjaman)
-            ->where('status_pinjam', 'disetujui')
+        // dd($request->all());
+        $peminjaman = Peminjaman::where('nomor_peminjaman', $request->nomor_peminjaman)
+            ->where('status', 'disetujui')
             ->first();
 
         if (!$peminjaman) {
@@ -35,7 +36,7 @@ class PengembalianController extends Controller
         $pengembalian->id_peminjaman = $peminjaman->id;
         $pengembalian->tanggal_penggembalian = now();
         $pengembalian->denda = 0;
-        $pengembalian->status_kembali = 'menunggu';
+        $pengembalian->status = 'menunggu';
         $pengembalian->save();
 
         // Update stok buku yang dikembalikan

@@ -10,7 +10,7 @@ class peminjaman extends Model
     protected $table = 'peminjamens';
 
     use HasFactory;
-    protected $fillable = ['id', 'nama_peminjam', 'id_buku', 'jumlah', 'tanggal_pinjam', 'tanggal_kembali', 'status'];
+    protected $fillable = ['id','nomor_peminjaman', 'nama_peminjam', 'id_buku', 'jumlah', 'tanggal_pinjam', 'tanggal_kembali', 'status'];
 
     public $timestamps = true;
     public function buku()

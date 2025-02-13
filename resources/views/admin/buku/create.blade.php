@@ -46,6 +46,10 @@
                                 <input type="date" class="form-control" name="tahun_terbit">
                             </div>
                             <div class="mb-3">
+                                <label class="form-label">harga</label>
+                                <input type="number" class="form-control" name="harga">
+                            </div>
+                            <div class="mb-3">
                                 <label class="form-label">foto</label>
                                 <input type="file" class="form-control" name="foto">
                             </div>

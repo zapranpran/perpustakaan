@@ -61,30 +61,43 @@ class PeminjamanController extends Controller
      */
     public function store(Request $request)
     {
-        //     $request -> validate([
-        //         'nama_Penerbit' => 'required|unique:Penerbits,nama_Penerbit'
-        //     ],
-
-        //     [
-        //         'nama_Penerbit.required' => 'Nama harus diisi',
-        //         'nama_Penerbit.unique' => 'Penerbit dengan nama tersebut sudah ada sebelumnya.',
-        //     ]
-        // );
-
-
 
         $peminjaman = new peminjaman();
+        $peminjaman->nomor_peminjaman = 'PMJ-' . mt_rand(100000,999999);
         $peminjaman->nama_peminjam = $request->nama_peminjam;
         $peminjaman->id_buku = $request->id_buku;
         $peminjaman->jumlah = $request->jumlah;
         $peminjaman->tanggal_pinjam = $request->tanggal_pinjam;
         $peminjaman->batas_pinjam = $request->batas_pinjam;
         $peminjaman->tanggal_kembali = $request->tanggal_kembali;
-        $peminjaman->status =   'ditahan';
+        $peminjaman->status =   'menunggu';
         $peminjaman->save();
 
         return redirect()->route('peminjaman.index')->with('success', 'Buku berhasil dipinjam');
     }
+
+    public function getPeminjaman($nomor_peminjaman)
+{
+    $peminjaman = Peminjaman::where('nomor_peminjaman', $nomor_peminjaman)->with('buku')->first();
+
+    if (!$peminjaman) {
+        return response()->json(['error' => 'Peminjaman tidak ditemukan atau belum disetujui!'], 404);
+    }
+
+    return response()->json([
+        'nama_peminjam' => $peminjaman->nama_peminjam,
+        'tanggal_pinjam' => $peminjaman->tanggal_pinjam,
+        'batas_pinjam' => $peminjaman->batas_pinjam,
+        'buku_dipinjam' => $peminjaman->buku->map(function ($buku) {
+            return [
+                'id_buku' => $buku->id,
+                'judul' => $buku->judul,
+                'jumlah' => $buku->pivot->jumlah,
+            ];
+        })
+    ]);
+}
+
 
     /**
      * Display the specified resource.
@@ -129,11 +142,11 @@ class PeminjamanController extends Controller
         $buku = Buku::findOrFail($peminjaman->id_buku);
 
         // Terapkan logika berdasarkan status
-        if ($status === 'diterima') {
-            // Kurangi stok buku jika diterima
+        if ($status === 'disetujui') {
+            // Kurangi stok buku jika disetujui
             $buku->jumlah -= $peminjaman->jumlah;
             $buku->save();
-            $peminjaman->status = 'diterima';
+            $peminjaman->status = 'disetujui';
             Alert::success('Peminjaman diterima', 'Stok buku berhasil dikurangi')->autoclose(1500);
         } elseif ($status === 'ditahan') {
             // Tambah stok buku jika ditahan

@@ -17,6 +17,7 @@
             <thead>
                 <tr class="text-center">
                     <th scope="col">NO</th>
+                    <th scope="col">Nomor Pinjam</th>
                     <th scope="col">NAMA BUKU</th>
                     <th scope="col">NAMA PEMINJAM</th>
                     <th scope="col">JUMLAH BUKU</th>
@@ -30,6 +31,7 @@
                 @foreach ($peminjaman as $data)
                 <tr class="text-center">
                     <th scope="row">{{ $loop->index+1 }}</th>
+                    <td>{{ $data->nomor_peminjaman }}</td>
                     <td>{{ $data->buku->judul}}</td>
                     <td>{{ $data->nama_peminjam}}</td>
                     <td>{{ $data->jumlah }}</td>

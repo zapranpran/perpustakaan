@@ -9,7 +9,7 @@ class Buku extends Model
 {
     use HasFactory;
 
-    protected $filable = ['id', 'judul' ,'id_penulis', 'id_penerbit', 'id_kategori', 'tahun_terbit', 'jumlah', 'foto', 'sinopsis'];
+    protected $filable = ['id', 'judul' ,'id_penulis', 'id_penerbit', 'id_kategori', 'tahun_terbit', 'jumlah', 'harga', 'foto', 'sinopsis'];
     protected $fileable = ['judul', 'foto'];
     public $timestamp = true;
 

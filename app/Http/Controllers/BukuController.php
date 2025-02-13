@@ -61,6 +61,7 @@ class BukuController extends Controller
         $buku->tahun_terbit= $request->tahun_terbit ;
         $buku->jumlah= $request->jumlah ;
         $buku->sinopsis= $request->sinopsis ;
+        $buku->harga= $request->harga;
 
         // update img
         if ($request->hasFile('foto')) {

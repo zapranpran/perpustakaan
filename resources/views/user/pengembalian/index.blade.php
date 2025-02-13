@@ -44,52 +44,62 @@
             </form>
 
             <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    document.getElementById('no_peminjaman').addEventListener('change', async function() {
-                        let noPeminjaman = this.value.trim();
-                        let errorDiv = document.getElementById('error-message');
-                        let bookList = document.getElementById('book-list');
+   document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('no_peminjaman').addEventListener('change', async function (event) {
+        event.preventDefault(); // Cegah event bawaan form agar tidak refresh halaman
 
-                        if (!noPeminjaman) return;
-                        try {
-                            let response = await fetch(`/api/get-peminjaman/${noPeminjaman}`);
-                            let data = await response.json();
+        let noPeminjaman = this.value.trim();
+        let bookList = document.getElementById('book-list');
+        let placeholderText = document.getElementById('placeholder-text');
 
-                            if (!response.ok) throw new Error("Peminjaman tidak ditemukan atau belum disetujui!");
+        if (!noPeminjaman) return;
 
-                            document.getElementById('nama_peminjam').value = data.nama_peminjam;
-                            document.getElementById('tanggal_pinjam').value = data.tanggal_pinjam;
-                            document.getElementById('batas_pinjam').value = data.batas_pinjam;
+        try {
+            let response = await fetch(`/api/get-peminjaman/${noPeminjaman}`);
+            let data = await response.json();
 
-                            bookList.innerHTML = '';
-                            data.buku_dipinjam.forEach((buku) => {
-                                bookList.innerHTML += `
-                                    <div class="col-md-10">
-                                        <label class="form-label">Judul Buku</label>
-                                        <input type="text" class="form-control" value="${buku.judul}" readonly>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <label class="form-label">Jumlah</label>
-                                        <input type="number" class="form-control" name="jumlah_kembali[${buku.id_buku}]" value="${buku.jumlah}" required>
-                                    </div>
-                                    <input type="hidden" name="id_buku[]" value="${buku.id_buku}">
-                                `;
-                            });
+            if (!response.ok) throw new Error("Peminjaman tidak ditemukan atau belum disetujui!");
 
-                            errorDiv.style.display = "none";
+            // Isi data ke form
+            document.getElementById('nama_peminjam').value = data.nama_peminjam;
+            document.getElementById('tanggal_pinjam').value = data.tanggal_pinjam;
+            document.getElementById('batas_pinjam').value = data.batas_pinjam;
 
-                        } catch (error) {
-                            errorDiv.textContent = error.message;
-                            errorDiv.style.display = "block";
+            // Hapus placeholder text
+            placeholderText.style.display = "none";
+            bookList.innerHTML = '';
 
-                            document.getElementById('nama_peminjam').value = "";
-                            document.getElementById('tanggal_pinjam').value = "";
-                            document.getElementById('batas_pinjam').value = "";
-                            bookList.innerHTML = "";
-                        }
-                    });
-                });
+            // Tampilkan buku yang dipinjam
+            data.buku_dipinjam.forEach((buku) => {
+                bookList.innerHTML += `
+                    <div class="col-md-10">
+                        <label class="form-label">Judul Buku</label>
+                        <input type="text" class="form-control" value="${buku.judul}" readonly>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Jumlah</label>
+                        <input type="number" class="form-control" name="jumlah_kembali[${buku.id_buku}]" value="${buku.jumlah}" required>
+                    </div>
+                    <input type="hidden" name="id_buku[]" value="${buku.id_buku}">
+                `;
+            });
+
+        } catch (error) {
+            alert(error.message);
+
+            // Reset form jika terjadi error
+            document.getElementById('nama_peminjam').value = "";
+            document.getElementById('tanggal_pinjam').value = "";
+            document.getElementById('batas_pinjam').value = "";
+            bookList.innerHTML = "";
+            placeholderText.style.display = "block";
+        }
+    });
+});
+
             </script>
+
+
         </div>
     </div>
 </div>
