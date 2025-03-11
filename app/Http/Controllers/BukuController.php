@@ -145,4 +145,6 @@ class BukuController extends Controller
         $buku->delete();
         return redirect()->route('buku.index')->with('success', 'Data berhasil dihapus');
     }
+
+    
 }

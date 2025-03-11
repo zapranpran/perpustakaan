@@ -27,6 +27,11 @@
                     <input type="text" id="batas_pinjam" class="form-control" readonly>
                 </div>
 
+                <div class="col-md-6">
+                    <label class="form-label">Tanggal Pengembalian</label>
+                    <input type="date" id="tanggal_pengembalian" class="form-control" name="tanggal_pengembalian" required>
+                </div>
+
                 <hr>
                 <h5>Detail Buku yang Dipinjam</h5>
                 <div class="row" id="book-list">
@@ -35,6 +40,10 @@
 
                 <hr>
                 <h5>Denda</h5>
+                <div class="col-md-6">
+                    <label class="form-label">Total Denda (Rp)</label>
+                    <input type="text" id="total_denda" class="form-control" name="total_denda" readonly>
+                </div>
 
                 <div class="col-md-12">
                     <div class="d-md-flex d-grid align-items-center gap-3">
@@ -44,7 +53,7 @@
             </form>
 
             <script>
-   document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('no_peminjaman').addEventListener('change', async function (event) {
         event.preventDefault(); // Cegah event bawaan form agar tidak refresh halaman
 
@@ -65,6 +74,10 @@
             document.getElementById('tanggal_pinjam').value = data.tanggal_pinjam;
             document.getElementById('batas_pinjam').value = data.batas_pinjam;
 
+            // Set tanggal pengembalian hari ini
+            let today = new Date().toISOString().split('T')[0];
+            document.getElementById('tanggal_pengembalian').value = today;
+
             // Hapus placeholder text
             placeholderText.style.display = "none";
             bookList.innerHTML = '';
@@ -84,6 +97,9 @@
                 `;
             });
 
+            // Hitung denda jika ada keterlambatan
+            hitungDenda();
+
         } catch (error) {
             alert(error.message);
 
@@ -95,13 +111,35 @@
             placeholderText.style.display = "block";
         }
     });
+
+    document.getElementById('tanggal_pengembalian').addEventListener('change', hitungDenda);
+
+    function hitungDenda() {
+        let batasPinjam = document.getElementById('batas_pinjam').value;
+        let tanggalPengembalian = document.getElementById('tanggal_pengembalian').value;
+        let totalDendaInput = document.getElementById('total_denda');
+        let tarifDendaPerHari = 1000; // Ubah sesuai kebijakan perpustakaan
+
+        if (!batasPinjam || !tanggalPengembalian) {
+            totalDendaInput.value = 0;
+            return;
+        }
+
+        let batasDate = new Date(batasPinjam);
+        let pengembalianDate = new Date(tanggalPengembalian);
+
+        if (pengembalianDate > batasDate) {
+            let keterlambatanHari = Math.ceil((pengembalianDate - batasDate) / (1000 * 60 * 60 * 24));
+            let totalDenda = keterlambatanHari * tarifDendaPerHari;
+            totalDendaInput.value = totalDenda;
+        } else {
+            totalDendaInput.value = 0;
+        }
+    }
 });
-
             </script>
-
 
         </div>
     </div>
 </div>
-
 @endsection
