@@ -16,14 +16,14 @@
         <table class="table mb-0 table-striped" id="example2">
             <thead>
                 <tr class="text-center">
-                    <th scope="col">NO</th>
+                    <th scope="col">No</th>
                     <th scope="col">Nomor Pinjam</th>
                     <th scope="col">NAMA BUKU</th>
                     <th scope="col">NAMA PEMINJAM</th>
                     <th scope="col">JUMLAH BUKU</th>
-                    <th scope="col">TANGGAL PEMINJAMAN</th>
-                    <th scope="col">BATAS PEMINJAMAN</th>
-                    <th scope="col">TANGGAL PENGEMBALIAN</th>
+                    {{-- <th scope="col">TANGGAL PEMINJAMAN</th> --}}
+                    {{-- <th scope="col">BATAS PEMINJAMAN</th> --}}
+                    {{-- <th scope="col">TANGGAL PENGEMBALIAN</th> --}}
                     <th scope="col">AKSI</th>
                 </tr>
             </thead>
@@ -35,9 +35,9 @@
                     <td>{{ $data->buku->judul}}</td>
                     <td>{{ $data->nama_peminjam}}</td>
                     <td>{{ $data->jumlah }}</td>
-                    <td>{{ $data->tanggal_pinjam }}</td>
-                    <td>{{ $data->batas_pinjam }}</td>
-                    <td>{{ $data->tanggal_kembali }}</td>
+                    {{-- <td>{{ $data->tanggal_pinjam }}</td> --}}
+                    {{-- <td>{{ $data->batas_pinjam }}</td> --}}
+                    {{-- <td>{{ $data->tanggal_kembali }}</td> --}}
                     {{-- <td>
                         @if($data->status)
                         <p class="dash-lable mb-0 bg-success bg-opacity-10 rounded-2">di kembalikan</p>

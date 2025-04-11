@@ -8,6 +8,7 @@ use App\Models\Buku;
 use App\Models\Penerbit;
 use App\Models\Penulis;
 use App\Models\Kategori;
+use App\Models\Pengembalian;
 use App\Models\User;
 use Carbon\Carbon;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -27,6 +28,20 @@ class PeminjamanController extends Controller
             return view('user.peminjaman.index', compact('peminjaman', 'buku'));
         }
     }
+
+    public function indexapi()
+    {
+        $peminjaman = Peminjaman::with(['buku'])->get();
+
+        $res = [
+            'success' => true,
+            'message' => 'Daftar Peminjaman',
+            'peminjamans' => $peminjaman,
+        ];
+
+        return response()->json($res, 200);
+    }
+
 
     public function indexAdmin()
     {
@@ -63,8 +78,8 @@ class PeminjamanController extends Controller
     {
 
         $peminjaman = new peminjaman();
-        $peminjaman->nomor_peminjaman = 'PMJ-' . mt_rand(100000,999999);
-        $peminjaman->nama_peminjam = $request->nama_peminjam;
+        $peminjaman->nomor_peminjaman = 'PMJ-' . mt_rand(100000, 999999);
+        $peminjaman->id_user = Auth::id();
         $peminjaman->id_buku = $request->id_buku;
         $peminjaman->jumlah = $request->jumlah;
         $peminjaman->tanggal_pinjam = $request->tanggal_pinjam;
@@ -77,26 +92,26 @@ class PeminjamanController extends Controller
     }
 
     public function getPeminjaman($nomor_peminjaman)
-{
-    $peminjaman = Peminjaman::where('nomor_peminjaman', $nomor_peminjaman)->with('buku')->first();
+    {
+        $peminjaman = Peminjaman::where('nomor_peminjaman', $nomor_peminjaman)->with('buku')->first();
 
-    if (!$peminjaman) {
-        return response()->json(['error' => 'Peminjaman tidak ditemukan atau belum disetujui!'], 404);
+        if (!$peminjaman) {
+            return response()->json(['error' => 'Peminjaman tidak ditemukan atau belum disetujui!'], 404);
+        }
+
+        return response()->json([
+            'nama_peminjam' => $peminjaman->nama_peminjam,
+            'tanggal_pinjam' => $peminjaman->tanggal_pinjam,
+            'batas_pinjam' => $peminjaman->batas_pinjam,
+            'buku_dipinjam' => $peminjaman->buku->map(function ($buku) {
+                return [
+                    'id_buku' => $buku->id,
+                    'judul' => $buku->judul,
+                    'jumlah' => $buku->pivot->jumlah,
+                ];
+            })
+        ]);
     }
-
-    return response()->json([
-        'nama_peminjam' => $peminjaman->nama_peminjam,
-        'tanggal_pinjam' => $peminjaman->tanggal_pinjam,
-        'batas_pinjam' => $peminjaman->batas_pinjam,
-        'buku_dipinjam' => $peminjaman->buku->map(function ($buku) {
-            return [
-                'id_buku' => $buku->id,
-                'judul' => $buku->judul,
-                'jumlah' => $buku->pivot->jumlah,
-            ];
-        })
-    ]);
-}
 
 
     /**
@@ -132,49 +147,36 @@ class PeminjamanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Temukan objek Minjem berdasarkan ID
-        $peminjaman = peminjaman::findOrFail($id);
+        // Ambil data peminjaman berdasarkan ID
+        $peminjaman = Peminjaman::findOrFail($id);
 
-        // Ambil status dari request
-        $status = $request->input('status');
-
-        // Temukan buku yang dipinjam
-        $buku = Buku::findOrFail($peminjaman->id_buku);
-
-        // Terapkan logika berdasarkan status
-        if ($status === 'disetujui') {
-            // Kurangi stok buku jika disetujui
-            $buku->jumlah -= $peminjaman->jumlah;
-            $buku->save();
-            $peminjaman->status = 'disetujui';
-            Alert::success('Peminjaman diterima', 'Stok buku berhasil dikurangi')->autoclose(1500);
-        } elseif ($status === 'ditahan') {
-            // Tambah stok buku jika ditahan
-            $buku->jumlah += $peminjaman->jumlah;
-            $buku->save();
-            $peminjaman->status = 'ditahan';
-            Alert::info('Peminjaman ditahan', 'Peminjaman buku ditahan')->autoclose(1500);
-        } elseif ($status === 'ditolak') {
-            // Tidak ada perubahan pada stok buku jika ditolak
-            $peminjaman->status = 'ditolak';
-            Alert::error('Peminjaman ditolak', 'Pengajuan peminjaman buku ditolak')->autoclose(1500);
-        } elseif ($status === 'dikembalikan') {
-            // Tambah stok buku jika dikembalikan
-            $buku->jumlah += $peminjaman->jumlah;
-            $buku->save();
-            //   $peminjaman->status = 'dikembalikan';
-            Alert::success('Peminjaman dikembalikan', 'Peminjaman buku dikembalikan')->autoclose(1500);
-        } else {
-            // Jika status "ditahan"
-            Alert::info('Status ditahan', 'Pengajuan peminjaman buku masih ditahan')->autoclose(1500);
+        // Debugging: Check if 'id_user' exists in 'peminjaman'
+        if (!$peminjaman->id_user) {
+            // If no user found, log or return error
+            return redirect()->route('peminjaman.index')->with('error', 'ID user tidak ditemukan pada peminjaman.');
         }
 
-        $peminjaman->save();
+        // Cek apakah status yang dipilih adalah 'Kembalikan' (1)
+        if ($request->status == 1) {
+            // Buat data pengembalian baru
+            $pengembalian = new Pengembalian();
+            $pengembalian->id_user = $peminjaman->id_user;  // Ambil ID user dari peminjaman
+            $pengembalian->id_peminjaman = $peminjaman->id; // Ambil ID peminjaman
+            $pengembalian->tanggal_pengembalian = $peminjaman->id;  // Set tanggal pengembalian saat ini
+            $pengembalian->status = 'menunggu'; // Status pengembalian dimulai dengan 'menunggu'
+            $pengembalian->alasan_kembali = ''; // Kamu bisa menambahkan alasan jika perlu
+            $pengembalian->denda = 0; // Tentukan denda jika perlu
+            $pengembalian->save(); // Simpan data pengembalian
 
-        // Redirect dengan pesan sukses
-        return redirect()->back()->with('success', 'Status peminjaman berhasil diperbarui.');
+            // Update status peminjaman jika perlu
+            $peminjaman->status = 'disetujui'; // Misalnya ganti status peminjaman menjadi dikembalikan
+            $peminjaman->save();
+        }
+
+        // Redirect ke halaman yang diinginkan setelah update
+        return redirect()->route('peminjaman.index')->with('success', 'Proses pengembalian berhasil.');
     }
-
+    
     /**
      * Remove the specified resource from storage.
      *

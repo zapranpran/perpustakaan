@@ -103,6 +103,14 @@
                 </p>
             </div>
         </div>
+        {{-- <div class="col-md-6">
+            <div class="p-6 m-20 bg-white rounded shadow">
+                {!! $chart->container() !!}
+            </div>
+        </div>
+        <script src="{{ $chart->cdn() }}"></script>
+
+        {{ $chart->script() }} --}}
     </div>
 
 

@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Charts\AdminChart;
 use App\Models\Kategori;
 use App\Models\Penerbit;
 use App\Models\Penulis;
 use App\Models\Buku;
 use App\Models\peminjaman;
 use App\Models\Pengembalian;
-// use App\Charts\BukuChart;
+use App\Charts\BukuChart;
 
 class HomeController extends Controller
 {
@@ -17,7 +18,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(AdminChart $chart)
     {
         // BUAT KE CHART
         // $masukPemasukan = Pemasukan::select('jumlah_pemasukan')->get();
@@ -42,5 +43,5 @@ class HomeController extends Controller
             'penminjaman' => $peminjaman,
         ]);
     }
-    
+
 }

@@ -55,9 +55,10 @@
                     <select id="input19" name="status" class="form-select">
                         <option selected="">Pilih...</option>
                         <option value="0">Pinjam</option>
-                        <option value="1">Kembalikan</option>
+                        <option value="1">Kembalikan</option> <!-- Saat ini memilih "Kembalikan" -->
                     </select>
                 </div>
+
                 <div class="col-md-12">
                     <div class="d-md-flex d-grid align-items-center gap-3">
                         <a href="{{route('peminjaman.index')}}" class="btn btn-danger px-4">Batal</a>

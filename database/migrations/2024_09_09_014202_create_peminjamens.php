@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('peminjamens', function (Blueprint $table) {
             $table->id();
             $table->string('nomor_peminjaman');
-            $table->string('nama_peminjam');
+            $table->unsignedBigInteger('id_user');
             $table->unsignedBigInteger('id_buku');
             $table->string('jumlah');
             $table->date('tanggal_pinjam');
@@ -24,6 +24,8 @@ return new class extends Migration
             $table->date('tanggal_kembali');
             $table->enum('status',['menunggu','disetujui','ditolak'])->default('menunggu');
             $table->timestamps();
+
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

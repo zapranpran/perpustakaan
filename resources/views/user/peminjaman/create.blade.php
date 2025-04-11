@@ -44,7 +44,7 @@
                                     <div class="col-md-6">
                                         <label for="input13" class="form-label">Nama Peminjam</label>
                                         <div class="position-relative">
-                                            <input class="form-control mb-3" type="text" name="nama_peminjam"
+                                            <input class="form-control mb-3" type="text" name="id_user"
                                                 placeholder="Nama" value="{{ Auth::user()->name }}" required readonly>
                                         </div>
                                     </div>

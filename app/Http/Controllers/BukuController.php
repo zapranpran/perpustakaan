@@ -7,7 +7,7 @@ use App\Models\buku;
 use App\Models\penulis;
 use App\Models\penerbit;
 use App\Models\kategori;
-
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class BukuController extends Controller
 {
@@ -146,5 +146,5 @@ class BukuController extends Controller
         return redirect()->route('buku.index')->with('success', 'Data berhasil dihapus');
     }
 
-    
+
 }

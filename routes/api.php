@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\ApiBukuController;
+use App\Http\Controllers\Api\ProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PeminjamanController;
@@ -19,6 +21,13 @@ use App\Models\peminjaman;
 
 Route::post('/register', [\App\Http\Controllers\Api\AuthController::class, 'register']);
 Route::post('/login', [\App\Http\Controllers\Api\AuthController::class, 'login']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::resource('/buku', ApiBukuController::class)->except('create', 'edit');
+    Route::get('/peminjaman', [\App\Http\Controllers\PeminjamanController::class, 'indexapi']);
+    Route::resource('/profile', ProfileController::class)->except('create', 'edit');
+
+});
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
